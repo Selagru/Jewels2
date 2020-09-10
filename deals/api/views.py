@@ -71,7 +71,7 @@ class TopFiveView(generics.ListAPIView):
             popular_gems = gems.filter(deal__customer__in=others_in_top)
             info = {
                 "username": customer.username,
-                "total_spent": customer.total_spent,
+                "spent_money": customer.total_spent,
                 "gems": popular_gems
             }
             data.append(info)

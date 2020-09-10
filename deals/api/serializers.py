@@ -11,12 +11,12 @@ class ItemSerializer(serializers.ModelSerializer):
 
 
 class TopFiveSerializer(serializers.ModelSerializer):
-    total_spent = serializers.IntegerField(read_only=True, required=False)
+    spent_money = serializers.IntegerField(read_only=True, required=False)
     gems = ItemSerializer(many=True, required=False)
 
     class Meta:
         model = User
-        fields = ['username', 'total_spent', 'gems']
+        fields = ['username', 'spent_money', 'gems']
 
 
 class DealSerializer(serializers.ModelSerializer):
