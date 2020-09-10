@@ -7,6 +7,8 @@ from django.contrib.auth.models import User
 from rest_framework import generics, status
 from rest_framework.response import Response
 from .serializers import DealSerializer, UploadSerializer, TopFiveSerializer
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 
 
 class UploadView(generics.CreateAPIView):
@@ -50,6 +52,10 @@ class UploadView(generics.CreateAPIView):
 
 class TopFiveView(generics.ListAPIView):
     serializer_class = TopFiveSerializer
+
+    @method_decorator(cache_page(60 * 15))
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
 
     def get_queryset(self):
         sorted_customers = User.objects.annotate(total_spent=Sum('deal__total')).order_by('-total_spent')
